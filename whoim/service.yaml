@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: whoami-service
+spec:
+  # type: LoadBalancer # Тип сервиса который помогает миникубу обращаться снаружи
+  type: NodePort #NodePort поменять почитать
+  selector:
+    app: whoami # сервис будет искать поды с меткой whoim
+  ports:
+    - protocol: TCP
+      port: 80       # внешний порт сервиса
+      targetPort: 80 # куда пересылается трафик

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami-deployment
+spec:
+  replicas: 6  # 6 pods
+  selector:
+    matchLabels:
+      app: whoami
+  template:
+    metadata:
+      labels:
+        app: whoami # идентификатор или метка
+    spec:
+      containers:
+      - name: whoami-container
+        image: nginxdemos/hello # приложение с веб интферфейсом
+        ports:
+        - containerPort: 80
+        readinessProbe: # проверка готово ли приложение принимать новый трафик или задачу, если приложение мертво то оно убирается из балансировщика нагрузки
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
